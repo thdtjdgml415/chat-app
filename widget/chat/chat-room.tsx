@@ -8,7 +8,7 @@ export function ChatRoom() {
   const { isOpen, setOpenChat } = useChatroomStateStore();
 
   return (
-    <div className="w-full h-full relative bg-secondary">
+    <div className="relative w-full h-full bg-secondary">
       {isOpen === true ? (
         <>
           <button
@@ -22,13 +22,14 @@ export function ChatRoom() {
           <ChattingBox />
         </>
       ) : (
-        <div className="w-full h-full flex justify-center pt-80">
+        <div className="flex justify-center w-full h-full pt-80">
           <div>
             <Image
               src="/images/choiceChat-Photoroom.png"
               width={150}
               height={150}
               alt="채팅방을 선택해주세요!"
+              priority
             />
             <p className="text-menu">채팅방을 선택해주세요....!!</p>
           </div>
