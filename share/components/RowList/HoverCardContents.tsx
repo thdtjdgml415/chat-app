@@ -1,18 +1,16 @@
-import React from "react";
-import { ChatUser } from "../model/chat";
-
-import { CalendarDays } from "lucide-react";
-
+import { ChatUser } from "@/features/chat/model/chat";
 import { splitDate } from "@/share/lib/utils";
-import { Avatar, AvatarFallback } from "@/share/ui/avatar";
 import { Button } from "@/share/ui/button";
 import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
 } from "@/share/ui/hover-card";
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
 
-const UserItem: React.FC<ChatUser> = ({
+import { CalendarDays } from "lucide-react";
+
+function HoverCardContents({
   id,
   loginId,
   name,
@@ -24,24 +22,18 @@ const UserItem: React.FC<ChatUser> = ({
   state,
   profile,
   profileImage,
-  isConnected,
-}) => {
+}: ChatUser) {
   return (
     <HoverCard>
       <li
         key={id}
-        className="flex items-center text-md rounded-sm text-black hover:bg-black/10 pl-2"
+        className="flex items-center pl-2 text-black rounded-sm text-md"
       >
-        {isConnected ? (
-          <span className="w-2 h-2 bg-green-500 rounded-lg mr-5"></span>
-        ) : (
-          <span className="w-2 h-2 bg-red-500 rounded-lg mr-5"></span>
-        )}
         <HoverCardTrigger asChild>
           <Button variant="link">{name}</Button>
         </HoverCardTrigger>
       </li>
-      <HoverCardContent className="w-30">
+      <HoverCardContent>
         <div className="flex justify-between space-x-4">
           <Avatar>
             {/* <AvatarImage src={`${profileImage}`} /> */}
@@ -52,7 +44,7 @@ const UserItem: React.FC<ChatUser> = ({
             <p className="text-sm">{profile}</p>
             <p>{email}</p>
             <div className="flex items-center pt-2">
-              <CalendarDays className="mr-2 h-4 w-4 opacity-70" />
+              <CalendarDays className="w-4 h-4 mr-2 opacity-70" />
               <span className="text-xs text-muted-foreground">
                 {splitDate(birthDate)}
               </span>
@@ -62,6 +54,5 @@ const UserItem: React.FC<ChatUser> = ({
       </HoverCardContent>
     </HoverCard>
   );
-};
-
-export default UserItem;
+}
+export default HoverCardContents;

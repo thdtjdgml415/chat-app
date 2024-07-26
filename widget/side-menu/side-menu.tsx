@@ -2,13 +2,13 @@
 
 import { ChatIcon, CommunityIcon } from "@/public/Images/side-menuSvg";
 import { SideHeader } from "./side-header";
-import { SideItem } from "./side-item";
 
 import AuthService from "@/features/auth/api/AuthService";
 import useToggle from "@/hooks/useToggle";
 import { Button } from "@/share/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import ConfigDialog from "../mypage/config-dialog";
+import { SideItem } from "./side-item";
 
 const menuItems = [
   { id: 1, label: "친구", link: "/chat", icon: <CommunityIcon /> },
@@ -45,17 +45,24 @@ export const SideMenu = () => {
         isToggle ? "min-w-[200px]" : "max-w-[65px]"
       }  h-screen hidden sm:flex flex-col items-center px-3 bg-ST_primary`}
     >
-      <div className="w-full h-9 mx-3 mt-6 mb-4 text-center">
-        <div className="w-full flex items-center">
+      <div className="w-full mx-3 mt-6 mb-4 text-center h-9">
+        <div className="flex items-center w-full">
           <SideHeader toggleFn={toggleFn} isToggle={isToggle} />
         </div>
       </div>
       <div className="w-full mb-20">
-        <ul className={`${isToggle ? "w-full" : "w-[40px]"} text-black`}>
-          {menuItems.map((list, index) => {
+        <ul className={`${isToggle ? "w-full" : "w-[40px]"}`}>
+          {menuItems.map((list) => {
             return (
+              // <RowList
+              //   key={list.id}
+              //   left={list.icon}
+              //   content={list.label}
+              //   as="li"
+              // />
+
               <SideItem
-                key={index}
+                key={list.id}
                 items={list}
                 activeMenuWidthState={isToggle}
                 path={path}

@@ -1,21 +1,18 @@
 import { Room } from "@/features/chat/model/chat";
 import useChatroomStateStore from "@/share/store/useChatroomStateStore";
+import useRoomIdStore from "@/share/store/useRoomIdStore";
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
   ContextMenuTrigger,
 } from "@radix-ui/react-context-menu";
+import Flex from "../Layout/Flex";
+import Text from "../Text/Text";
 
-const ChatRoomItem = ({
-  roomId,
-  title,
-  loginId,
-  unreadMsgNumber,
-  // subMessageSocket,
-  currentRoomId,
-  setRoomId,
-}: Room) => {
+function ContextMenuList({ roomId, title, loginId, unreadMsgNumber }: Room) {
+  const { roomId: currentRoomId, setRoomId } = useRoomIdStore();
+
   const { setOpenChat } = useChatroomStateStore();
   const handleOpenChat = () => {
     setRoomId(roomId);
@@ -25,7 +22,7 @@ const ChatRoomItem = ({
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <li
+        <div
           key={roomId}
           data-name={roomId}
           className={`p-2 list-none  ${
@@ -33,19 +30,26 @@ const ChatRoomItem = ({
           }`}
           onClick={handleOpenChat}
         >
-          <div className="flex items-center justify-between">
-            <div>
-              {title ? <p className="mb-2">{title}</p> : <p>[제목없음]</p>}
-              <p className="text-xs text-menu">dsadasda</p>
-            </div>
-            <div>
-              <p className="text-xs text-[#9f9f9f]">{loginId}</p>
-              <p className="inline text-right px-1 rounded-3xl bg-red-500 text-xs text-[#ffffff]">
+          <Flex justify="justify-between" alignItems="items-center">
+            <Flex direction="flex-col">
+              <Text size="t6" weight="xl" color="black" className="mb-2">
+                {title ? title : "제목없음"}
+              </Text>
+
+              <Text size="t7" weight="s" color="grey">
+                dsadasda
+              </Text>
+            </Flex>
+            <Flex direction="flex-col">
+              <Text size="t7" weight="s" color="grey">
+                {loginId}
+              </Text>
+              <span className="w-4 h-4 text-center rounded-3xl bg-red-500 text-xs text-[#ffffff]">
                 {unreadMsgNumber}
-              </p>
-            </div>
-          </div>
-        </li>
+              </span>
+            </Flex>
+          </Flex>
+        </div>
       </ContextMenuTrigger>
       <ContextMenuContent className="z-auto">
         <ContextMenuItem
@@ -59,6 +63,5 @@ const ChatRoomItem = ({
       </ContextMenuContent>
     </ContextMenu>
   );
-};
-
-export default ChatRoomItem;
+}
+export default ContextMenuList;

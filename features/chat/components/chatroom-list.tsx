@@ -1,16 +1,15 @@
 "use client";
+
 import { useQueryGetChatRoomList } from "@/features/chat/hooks/useQueryGetChatRoomList";
 import { Room } from "@/features/chat/model/chat";
-import useRoomIdStore from "@/share/store/useRoomIdStore";
+import RowList from "@/share/components/RowList";
 import { Skeleton } from "@/share/ui/skeleton";
-import ChatRoomItem from "./chatroom-item";
 
 export const ChatRoomList = () => {
-  const { roomId: currentRoomId, setRoomId } = useRoomIdStore();
   const { data: roomData, error, isLoading } = useQueryGetChatRoomList();
   if (isLoading)
     return (
-      <div className="flex flex-col space-y-3 my-5">
+      <div className="flex flex-col my-5 space-y-3">
         <Skeleton className="h-[50px] w-[150px] rounded-xl" />
         <Skeleton className="h-[50px] w-[150px] rounded-xl" />
         <Skeleton className="h-[50px] w-[150px] rounded-xl" />
@@ -22,7 +21,7 @@ export const ChatRoomList = () => {
     return <div className="my-10">채팅방 목록이 없습니다.</div>;
 
   return (
-    <div className="h-72 overflow-y-auto">
+    <ul className="w-full overflow-y-auto h-72">
       {roomData.data.map((room: Room) => {
         const {
           roomId,
@@ -33,19 +32,23 @@ export const ChatRoomList = () => {
           unreadMsgNumber,
         } = room;
         return (
-          <ChatRoomItem
+          <RowList
+            as="li"
             key={roomId}
-            roomId={roomId}
-            title={title}
-            roomType={roomType}
-            loginId={loginId}
-            lastMessage={lastMessage}
-            unreadMsgNumber={unreadMsgNumber}
-            currentRoomId={currentRoomId}
-            setRoomId={setRoomId}
+            content={
+              <RowList.context
+                key={roomId}
+                roomId={roomId}
+                title={title}
+                roomType={roomType}
+                loginId={loginId}
+                lastMessage={lastMessage}
+                unreadMsgNumber={unreadMsgNumber}
+              />
+            }
           />
         );
       })}
-    </div>
+    </ul>
   );
 };

@@ -1,16 +1,16 @@
 "use client";
 
+import RowList from "@/share/components/RowList";
 import { Skeleton } from "@/share/ui/skeleton";
 import { useQueryGetChatUserList } from "../hooks/useQueryGetChatUserList";
 import { ChatUser } from "../model/chat";
-import UserItem from "./user-item";
 
-const UserList: React.FC = () => {
+const UserList = () => {
   const { data: list, error, isLoading } = useQueryGetChatUserList();
 
   if (isLoading)
     return (
-      <div className="flex flex-col space-y-3 my-5">
+      <div className="flex flex-col my-5 space-y-3">
         <Skeleton className="h-[30px] w-[100px] rounded-xl" />
         <Skeleton className="h-[30px] w-[100px] rounded-xl" />
         <Skeleton className="h-[30px] w-[100px] rounded-xl" />
@@ -23,7 +23,6 @@ const UserList: React.FC = () => {
 
   return (
     <>
-      {/* {users?.data.map((user) => { */}
       {list.map((user: ChatUser) => {
         const {
           id,
@@ -40,20 +39,25 @@ const UserList: React.FC = () => {
           isConnected,
         } = user;
         return (
-          <UserItem
+          <RowList
             key={id}
-            id={id}
-            loginId={loginId}
-            name={name}
-            birthDate={birthDate}
-            gender={gender}
-            email={email}
-            role={role}
-            companyCode={companyCode}
-            state={state}
-            profile={profile}
-            profileImage={profileImage}
-            isConnected={isConnected}
+            left={<RowList.isConnect isConnected={isConnected} />}
+            content={
+              <RowList.hover
+                id={id}
+                loginId={loginId}
+                name={name}
+                birthDate={birthDate}
+                gender={gender}
+                email={email}
+                role={role}
+                companyCode={companyCode}
+                state={state}
+                profile={profile}
+                profileImage={profileImage}
+                isConnected={isConnected}
+              />
+            }
           />
         );
       })}

@@ -12,8 +12,8 @@ export interface Room {
   loginId: string;
   lastMessage: string;
   unreadMsgNumber: number;
-  currentRoomId: any;
-  setRoomId: any;
+  // currentRoomId: any;
+  // setRoomId: any;
 }
 
 // 채팅방 유저 리스트

@@ -12,11 +12,6 @@ export interface createRoomListProps {
   name: string;
 }
 
-let createRoomList: createRoomListProps[] = [
-  { id: 1, roomType: "PRIVATE", name: "일반채팅" },
-  { id: 2, roomType: "GROUP", name: "그룹채팅" },
-];
-
 export default function ChatRoomMenu() {
   const [isToggle, setIsToggle] = useToggle();
 
@@ -28,7 +23,7 @@ export default function ChatRoomMenu() {
           state={isToggle}
           label={"채팅방 목록"}
         />
-        <CustomDropdownMenu createRoomList={createRoomList} />
+        <CustomDropdownMenu />
       </div>
       <CreateRoomModal />
       {isToggle && <ChatRoomList />}

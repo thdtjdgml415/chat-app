@@ -30,7 +30,7 @@ export default function Page() {
         <ConfigChatRoomSide />
       </ResizablePanel>
       <ResizableHandle className="bg-[#cccccc]" />
-      <ResizablePanel className="min-w-[500px]">
+      <ResizablePanel defaultSize={80} className="min-w-[500px]">
         {/* 채팅방 */}
         <ChatRoom />
       </ResizablePanel>

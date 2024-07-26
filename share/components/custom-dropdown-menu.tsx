@@ -9,11 +9,12 @@ import {
 
 import { CiMenuKebab } from "react-icons/ci";
 
-export default function CustomDropdownMenu({
-  createRoomList,
-}: {
-  createRoomList: createRoomListProps[];
-}) {
+let createRoomList: createRoomListProps[] = [
+  { id: 1, roomType: "PRIVATE", name: "일반채팅" },
+  { id: 2, roomType: "GROUP", name: "그룹채팅" },
+];
+
+export default function CustomDropdownMenu() {
   const { setOpen } = useModalStore();
 
   return (

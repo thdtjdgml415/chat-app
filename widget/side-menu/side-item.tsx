@@ -32,7 +32,7 @@ export const SideItem: React.FC<listProps> = ({
         } mb-2 py-2 px-2 rounded-md text-center list-none last:mb-0 font-bold hover:bg-transparent/10`}
         onClick={() => handleMenuClick(items.link)}
       >
-        <div className="flex items-center flex-wrap">
+        <div className="flex flex-wrap items-center">
           <span className="mr-5">{items.icon}</span>
           {activeMenuWidthState && <h2 className="text-sm">{items.label}</h2>}
         </div>
