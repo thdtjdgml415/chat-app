@@ -1,12 +1,15 @@
-import axios, { AxiosResponse } from "axios";
 import Service from "../../../share/api/Service";
-import { SuccessLoginData, User, UserInfo } from "../model/auth";
-import { useRouter } from "next/navigation";
+import { SuccessLoginData, User } from "../model/auth";
 
 class AuthService extends Service {
+  service: any;
   // 로그인 클래스 함수
   async login({ loginId, password }: User): Promise<SuccessLoginData> {
-    return this.post("api/member/login", { loginId, password });
+    try {
+      return await this.post("api/member/login", { loginId, password });
+    } catch (error) {
+      throw error;
+    }
   }
 
   // 구글 로그인 클래스 함수
@@ -20,7 +23,6 @@ class AuthService extends Service {
     console.log(data);
     try {
       return await this.post<TUserInfo>("api/member/signup", data);
-      // `post` 메서드가 `AxiosResponse<UserInfo>`를 반환한다고 가정
     } catch (error) {
       // Axios 오류를 재던지기
       throw error;

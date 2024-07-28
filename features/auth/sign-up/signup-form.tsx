@@ -15,14 +15,15 @@ import { useSignUp } from "@/features/auth/hooks/useSignup";
 import { UserInfo } from "@/features/auth/model/auth";
 import { CalendarIcon } from "lucide-react";
 
-import AlertSignUp from "@/features/auth/sign-up/alert-signup";
 import useAlert from "@/hooks/useAlert";
 import { Form, FormField, FormItem, FormLabel, FormMessage } from "@/share";
 import CustomGroupRadio from "@/share/atom-components/custom-group-Radio";
 import CustomInput from "@/share/atom-components/custom-input";
+import PopupAlert from "@/share/components/Alert/PopupAlert";
 
 export default function SignUpForm() {
   const mutation = useSignUp();
+
   const isOpen = useAlert((state) => state.isOpen);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -50,7 +51,7 @@ export default function SignUpForm() {
 
   return (
     <Form {...form}>
-      {isOpen && <AlertSignUp content="회원가입" />}
+      {isOpen && <PopupAlert />}
       <form onSubmit={onSubmit} className="space-y-4">
         <CustomInput
           name="loginId"
@@ -88,7 +89,7 @@ export default function SignUpForm() {
                       !field && "text-muted-foreground"
                     )}
                   >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    <CalendarIcon className="w-4 h-4 mr-2" />
                     {field.value ? (
                       formatDate(field.value)
                     ) : (

@@ -26,6 +26,7 @@ export default function RootLayout({
   return (
     <html className={`${pretendard.variable}`}>
       <body className={`${pretendard.className} overflow-hidden`}>
+        <div id="modal-root"></div>
         <ReactQueryProviders>{children}</ReactQueryProviders>
       </body>
     </html>

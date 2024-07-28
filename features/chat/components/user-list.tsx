@@ -41,6 +41,7 @@ const UserList = () => {
         return (
           <RowList
             key={id}
+            className="ml-2"
             left={<RowList.isConnect isConnected={isConnected} />}
             content={
               <RowList.hover

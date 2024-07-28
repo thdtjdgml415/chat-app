@@ -18,10 +18,14 @@ import {
 import { Input } from "@/share/ui/input";
 import { formSchema } from "./formSchema";
 
+import useAlert from "@/hooks/useAlert";
+import PopupAlert from "@/share/components/Alert/PopupAlert";
 import Link from "next/link";
 
 export default function LoginForm() {
   const mutation = useLogin();
+  const isOpen = useAlert((state) => state.isOpen);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -38,6 +42,7 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
+      {isOpen && <PopupAlert />}
       <form onSubmit={onSubmit} className="space-y-4">
         <FormField
           control={form.control}
@@ -47,7 +52,6 @@ export default function LoginForm() {
               <FormLabel>ID</FormLabel>
               <FormControl>
                 <Input placeholder="Please enter id....!" {...field} />
-                {/* <Input placeholder="Please enter Password....!" {...field} /> */}
               </FormControl>
               <FormMessage />
             </FormItem>

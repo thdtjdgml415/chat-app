@@ -1,16 +1,31 @@
 import { create } from "zustand";
 
+type AlertType = "success" | "error" | "warning" | "info";
+
 type Store = {
   isOpen: boolean;
+  type: AlertType;
+  title: string;
   message: string;
-  openAlert: (message: string) => void;
+  openAlert: ({
+    type,
+    title,
+    message,
+  }: {
+    type: AlertType;
+    title: string;
+    message: string;
+  }) => void;
   closeAlert: () => void;
 };
 
 const useAlert = create<Store>((set) => ({
   isOpen: false,
+  type: "info",
+  title: "",
   message: "",
-  openAlert: (message: string) => set({ message: message, isOpen: true }),
+  openAlert: ({ type, title, message }) =>
+    set({ type, title, message, isOpen: true }),
   closeAlert: () => set({ isOpen: false }),
 }));
 

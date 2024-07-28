@@ -17,7 +17,7 @@ import { useEffect, useRef, useState } from "react";
 import UserCheckBoxList from "./user-checkBox-list";
 
 import { Input } from "@/share";
-// import useWebSocket from "@/share/hooks/useWebsocket";
+
 import { useWebSocketStore } from "@/share/store/useWebsocketStore";
 import { v4 as uuidv4 } from "uuid";
 export interface RoomDataProps {
@@ -88,7 +88,7 @@ export default function CreateRoomModal({}: {}) {
       )
     );
   };
-
+  // 체크리스트 state에 저장
   useEffect(() => {
     const newCheckedList: string[] = [];
     checkedState.forEach((value, key) => {
@@ -103,7 +103,7 @@ export default function CreateRoomModal({}: {}) {
     return Array.from(checkedState.entries())
       .filter(([_, value]) => value.isChecked === true)
       .map(([loginId, value]) => (
-        <Badge className="whitespace-nowrap mr-1" key={loginId}>
+        <Badge className="mr-1 whitespace-nowrap" key={loginId}>
           {value.name}
         </Badge>
       ));
@@ -124,7 +124,7 @@ export default function CreateRoomModal({}: {}) {
       <DialogContent className="w-[500px] h-[600px] rounded-md">
         <div className="box-border px-5">
           <DialogHeader>
-            <DialogTitle className="text-center text-lg mt-5">
+            <DialogTitle className="mt-5 text-lg text-center">
               {name}
             </DialogTitle>
             <Label htmlFor="roomTitle">

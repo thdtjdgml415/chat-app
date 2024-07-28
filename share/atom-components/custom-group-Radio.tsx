@@ -8,11 +8,7 @@ interface CustomGroupRadioProps {
   label: string;
 }
 
-export default function CustomGroupRadio({
-  form,
-  label,
-  name,
-}: CustomGroupRadioProps) {
+export default function CustomGroupRadio({ form }: CustomGroupRadioProps) {
   return (
     <FormField
       control={form.control}

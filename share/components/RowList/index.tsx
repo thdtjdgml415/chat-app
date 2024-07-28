@@ -10,11 +10,12 @@ interface RowListProps {
   content: React.ReactNode;
   link?: string;
   as?: React.ElementType;
+  className?: string;
 }
 
-function RowList({ left, content, link, as }: RowListProps) {
+function RowList({ left, content, as, className }: RowListProps) {
   return (
-    <Flex alignItems="items-center" className="ml-2" as={as}>
+    <Flex alignItems="items-center" className={className} as={as}>
       {left ?? <Flex>{left}</Flex>}
       <Text className={cn({ size: "t1" }, "w-full")}>{content}</Text>
     </Flex>

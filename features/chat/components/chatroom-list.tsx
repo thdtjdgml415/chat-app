@@ -35,6 +35,7 @@ export const ChatRoomList = () => {
           <RowList
             as="li"
             key={roomId}
+            className=""
             content={
               <RowList.context
                 key={roomId}
