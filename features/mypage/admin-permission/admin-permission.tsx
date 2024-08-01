@@ -1,9 +1,9 @@
 import { Skeleton } from "@/share/ui/skeleton";
 
+import ErrorAlert from "@/share/components/error-alert";
+import { useQueryPermissionMember } from "../hooks/useQueryAccount";
 import { User } from "../model/myConfig";
 import AdminPermissionitem from "./admin-permission-item";
-import { useQueryPermissionMember } from "../hooks/useQueryAccount";
-import ErrorAlert from "@/share/components/error-alert";
 
 export default function AdminPermission() {
   const { data, error, isPending, isLoading } = useQueryPermissionMember();
@@ -15,11 +15,11 @@ export default function AdminPermission() {
     console.log("get permission member list ---", data);
   }
   return (
-    <div className="max-w-80 mt-10">
-      <h1 className="min-w-40 text-slate-400 font-bold">대기중인 명단</h1>
+    <div className="mt-10 max-w-80">
+      <h1 className="font-bold min-w-40 text-slate-400">대기중인 명단</h1>
       <hr className="mb-5" />
       {!isLoading ? (
-        <ul className="min-w-40 space-y-5">
+        <ul className="space-y-5 min-w-40">
           {data?.data.map((el: User) => {
             const {
               id,
@@ -51,7 +51,7 @@ export default function AdminPermission() {
           })}
         </ul>
       ) : (
-        <div className="min-w-32 w-80 space-y-4">
+        <div className="space-y-4 min-w-32 w-80">
           <Skeleton className="h-[50px] w-full rounded-xl" />
           <Skeleton className="h-[50px] w-full rounded-xl" />
           <Skeleton className="h-[50px] w-full rounded-xl" />

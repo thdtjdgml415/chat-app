@@ -1,6 +1,5 @@
 "use client";
-
-import { useWebSocketStore } from "@/share/store/useWebsocketStore";
+import useSocketConnect from "@/share/hooks/useSocketConnect";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -8,29 +7,20 @@ import {
 } from "@/share/ui/resizable";
 import ConfigChatRoomSide from "@/widget/chat-config/chatroom-config";
 import { ChatRoom } from "@/widget/chat/chat-room";
-import { useEffect } from "react";
 
 export default function Page() {
-  const { connect, disconnect } = useWebSocketStore();
-  useEffect(() => {
-    connect();
-    console.log("몇번");
-    return () => {
-      disconnect();
-    };
-  }, []);
-
+  useSocketConnect();
   return (
     <ResizablePanelGroup
       direction="horizontal"
       className="max-w-full border-r-2 "
     >
-      <ResizablePanel defaultSize={20} className="min-w-[201px] bg-secondary">
+      <ResizablePanel defaultSize={20} className="min-w-[200px]">
         {/* 설정 및 유저 상태 */}
         <ConfigChatRoomSide />
       </ResizablePanel>
       <ResizableHandle className="bg-[#cccccc]" />
-      <ResizablePanel defaultSize={80} className="min-w-[500px]">
+      <ResizablePanel defaultSize={80}>
         {/* 채팅방 */}
         <ChatRoom />
       </ResizablePanel>

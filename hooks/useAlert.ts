@@ -17,6 +17,7 @@ type Store = {
     message: string;
   }) => void;
   closeAlert: () => void;
+  onClickButton: () => void;
 };
 
 const useAlert = create<Store>((set) => ({
@@ -27,6 +28,8 @@ const useAlert = create<Store>((set) => ({
   openAlert: ({ type, title, message }) =>
     set({ type, title, message, isOpen: true }),
   closeAlert: () => set({ isOpen: false }),
+
+  onClickButton: () => {},
 }));
 
 export default useAlert;

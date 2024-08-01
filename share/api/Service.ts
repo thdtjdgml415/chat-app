@@ -56,7 +56,6 @@ class Service {
       },
 
       async (error) => {
-        console.log("인터셉터 에러 스냅샷 ------------ ", error);
         if (error.response && error.response.status === 401) {
           console.log("401 error find");
           const data = error.response.data;

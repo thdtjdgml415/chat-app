@@ -5,19 +5,20 @@ import { SideHeader } from "./side-header";
 
 import AuthService from "@/features/auth/api/AuthService";
 import useToggle from "@/hooks/useToggle";
+import { useWebSocketStore } from "@/share/store/useWebsocketStore";
 import { Button } from "@/share/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import ConfigDialog from "../mypage/config-dialog";
 import { SideItem } from "./side-item";
 
 const menuItems = [
-  { id: 1, label: "친구", link: "/chat", icon: <CommunityIcon /> },
+  { id: 1, label: "친구", link: "/chat/friends", icon: <CommunityIcon /> },
   { id: 2, label: "채팅방", link: "/chat/chatroom", icon: <ChatIcon /> },
 ];
 
 export const SideMenu = () => {
+  const { disconnect } = useWebSocketStore();
   const path = usePathname();
-  console.log(path);
   const route = useRouter();
   const [isToggle, toggleFn] = useToggle();
 
@@ -30,6 +31,7 @@ export const SideMenu = () => {
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
         localStorage.removeItem("role");
+        disconnect();
         // 로그아웃 성공 후 처리, 예를 들어 홈페이지로 리다이렉트
         route.push("/sign-in");
       }

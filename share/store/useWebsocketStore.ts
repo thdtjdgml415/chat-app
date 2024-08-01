@@ -1,9 +1,18 @@
-import { RoomDataProps } from "@/features/chat/components/create-room-modal";
 import { Client, StompSubscription } from "@stomp/stompjs";
 
 import { MessageDataProps } from "@/features/chat/model/chat";
+import { QueryClient } from "@tanstack/react-query";
 import { create } from "zustand";
 import useMessageStore from "./useMessageStore";
+import { useModalStore } from "./useModalStore";
+
+export interface RoomDataProps {
+  creator: string;
+  roomType: string;
+  participant: string[];
+  roomId: any;
+  title?: string;
+}
 
 interface useWebsocketStoreProps {
   client: Client | null;
@@ -119,11 +128,16 @@ export const useWebSocketStore = create<useWebsocketStoreProps>((set, get) => ({
   //   // 채팅방 생성
   createChatRoom: (roomData: RoomDataProps) => {
     const { client } = get();
+    const queryClient = new QueryClient();
+
+    const { closeModal } = useModalStore.getState();
     if (client && client.connected) {
       client.publish({
         destination: "/pub/chat/createRoom/group",
         body: JSON.stringify(roomData),
       });
+      closeModal();
+      queryClient.refetchQueries({ queryKey: ["room"] });
     } else {
       console.log("WebSocket client is not connected.");
     }

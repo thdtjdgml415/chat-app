@@ -1,5 +1,4 @@
 import { createRoomListProps } from "@/features/chat/components/chatroom-menu";
-import useModalStore from "@/hooks/useModalStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,6 +7,8 @@ import {
 } from "@/share/ui/dropdown-menu";
 
 import { CiMenuKebab } from "react-icons/ci";
+import { useModalStore } from "../store/useModalStore";
+import ModalContainer from "./Modal/ModalContainer";
 
 let createRoomList: createRoomListProps[] = [
   { id: 1, roomType: "PRIVATE", name: "일반채팅" },
@@ -15,7 +16,7 @@ let createRoomList: createRoomListProps[] = [
 ];
 
 export default function CustomDropdownMenu() {
-  const { setOpen } = useModalStore();
+  const openModal = useModalStore((state) => state.openModal);
 
   return (
     <DropdownMenu>
@@ -27,12 +28,17 @@ export default function CustomDropdownMenu() {
           return (
             <DropdownMenuItem
               key={item.id}
-              aria-valuetext={`${item.roomType}`}
               onClick={() =>
-                setOpen({
-                  name: item.name,
-                  roomType: item.roomType,
-                  isOpen: true,
+                openModal({
+                  componentTit: (
+                    <ModalContainer.CreateRoomTitle name={item.name} />
+                  ),
+                  componentCont: <ModalContainer.CreateRoomCont />,
+                  componentFooter: (
+                    <ModalContainer.CreateRooomButton
+                      roomType={item.roomType}
+                    />
+                  ),
                 })
               }
             >

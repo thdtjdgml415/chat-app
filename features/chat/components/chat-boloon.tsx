@@ -22,7 +22,7 @@ const ChatMessage = ({
     queryFn: () => ChatService.getChatHistroy(roomId),
     select: (data: any) => data.data,
     enabled: !!roomId,
-    staleTime: 5000,
+    staleTime: 1000,
   });
 
   useEffect(() => {
@@ -46,14 +46,14 @@ const ChatMessage = ({
             ) : (
               <>
                 <div className="flex items-center mb-1">
-                  <p className="text-fontSize-title16 font-bold text-ST_asist mr-6">
+                  <p className="mr-6 font-bold text-fontSize-title16 text-ST_asist">
                     {item.sender}
                   </p>
                   <div className="text-sm text-ST_placeHolder">
                     {formatDateKor(item.createdDate)}
                   </div>
                 </div>
-                <div className="text-title16 font-medium text-ST_asist">
+                <div className="font-medium text-title16 text-ST_asist">
                   {item.content}
                 </div>
               </>

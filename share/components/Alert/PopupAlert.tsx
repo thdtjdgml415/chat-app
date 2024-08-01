@@ -22,7 +22,7 @@ const alertIcons = {
 };
 
 const PopupAlert: React.FC = () => {
-  const { type, message, title, closeAlert } = useAlert();
+  const { type, message, title, onClickButton } = useAlert();
 
   const Icon = alertIcons[type];
 
@@ -39,7 +39,9 @@ const PopupAlert: React.FC = () => {
           buttonVariants({ variant: "destructive", size: "lg" }),
           "mt-10 text-center"
         )}
-        onClick={closeAlert}
+        onClick={() => {
+          onClickButton();
+        }}
       >
         확인
       </Button>

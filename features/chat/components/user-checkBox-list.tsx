@@ -14,7 +14,7 @@ export default function UserCheckBoxList({
   onCheckedChange: (isChecked: boolean) => void;
 }) {
   return (
-    <li className="flex items-center justify-around py-2 hover:bg-secondary">
+    <li className="flex items-center justify-around py-2 hover:bg-menu">
       <Label htmlFor={`${user.loginId}`}>{user.name}</Label>
       <Checkbox
         id={`${user.loginId}`}

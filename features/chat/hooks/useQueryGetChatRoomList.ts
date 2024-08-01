@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import ChatService from "../api/ChatService";
-import { ChatRoomProps, Room } from "../model/chat";
+import { ChatRoomProps } from "../model/chat";
 
 export const useQueryGetChatRoomList = () => {
   const { data, error, isPending, isLoading } = useQuery<
