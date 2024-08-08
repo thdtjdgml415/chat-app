@@ -4,7 +4,7 @@ import { cn } from "@/share/lib/utils";
 import { Button, buttonVariants } from "@/share/ui/button";
 
 import { useMutationPermissionMember } from "../hooks/useMutationPermissionMember";
-import { User } from "../model/myConfig";
+import { UserConfig } from "../model/myConfig";
 
 export type ActionPorps = {
   id: number;
@@ -23,7 +23,7 @@ export default function AdminPermissionitem({
   role,
   state,
   profile,
-}: User) {
+}: UserConfig) {
   const mutation = useMutationPermissionMember();
 
   const handleAction = (actionType: string, code: string) => {
@@ -38,8 +38,8 @@ export default function AdminPermissionitem({
   };
 
   return (
-    <li key={id} className="max-w-80 flex items-center justify-between">
-      <p className="min-w-20 mr-10">{name}</p>
+    <li key={id} className="flex items-center justify-between max-w-80">
+      <p className="mr-10 min-w-20">{name}</p>
       <div className="flex max-sm:flex-wrap">
         <Button
           onClick={() => handleAction("approve", companyCode)}

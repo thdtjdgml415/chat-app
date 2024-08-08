@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 function useCustomQuery<T>(
   queryKey: string[],
@@ -6,7 +6,7 @@ function useCustomQuery<T>(
   selectFunction = (data: any) => data,
   initialData?: T
 ) {
-  const { data, error, isPending, isLoading } = useQuery({
+  const { data, error, isPending, isLoading } = useSuspenseQuery({
     queryKey,
     queryFn: queryFunction,
     initialData: initialData,

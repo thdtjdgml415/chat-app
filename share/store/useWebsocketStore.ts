@@ -1,7 +1,6 @@
 import { Client, StompSubscription } from "@stomp/stompjs";
 
 import { MessageDataProps } from "@/features/chat/model/chat";
-import { QueryClient } from "@tanstack/react-query";
 import { create } from "zustand";
 import useMessageStore from "./useMessageStore";
 import { useModalStore } from "./useModalStore";
@@ -36,10 +35,11 @@ export const useWebSocketStore = create<useWebsocketStoreProps>((set, get) => ({
   currentSubscription: null,
 
   connect: () => {
+    const acess = localStorage.getItem("access");
     const client = new Client({
       brokerURL: `ws://43.203.222.95:8080/ws/chat`,
       connectHeaders: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
+        Authorization: `Bearer ${acess}`,
       },
       onConnect: () => {
         console.log("Connected to WebSocket server!");
@@ -58,6 +58,8 @@ export const useWebSocketStore = create<useWebsocketStoreProps>((set, get) => ({
         console.error("Additional details:", frame.body);
       },
       reconnectDelay: 5000,
+      heartbeatIncoming: 4000,
+      heartbeatOutgoing: 4000,
     });
     client.activate();
   },
@@ -128,7 +130,6 @@ export const useWebSocketStore = create<useWebsocketStoreProps>((set, get) => ({
   //   // 채팅방 생성
   createChatRoom: (roomData: RoomDataProps) => {
     const { client } = get();
-    const queryClient = new QueryClient();
 
     const { closeModal } = useModalStore.getState();
     if (client && client.connected) {
@@ -136,8 +137,9 @@ export const useWebSocketStore = create<useWebsocketStoreProps>((set, get) => ({
         destination: "/pub/chat/createRoom/group",
         body: JSON.stringify(roomData),
       });
+
       closeModal();
-      queryClient.refetchQueries({ queryKey: ["room"] });
+      // STOMP 메시지가 처리된 후 react-query 상태를 갱신
     } else {
       console.log("WebSocket client is not connected.");
     }

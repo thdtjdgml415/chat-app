@@ -2,7 +2,7 @@ import { Skeleton } from "@/share/ui/skeleton";
 
 import ErrorAlert from "@/share/components/error-alert";
 import { useQueryPermissionMember } from "../hooks/useQueryAccount";
-import { User } from "../model/myConfig";
+import { UserConfig } from "../model/myConfig";
 import AdminPermissionitem from "./admin-permission-item";
 
 export default function AdminPermission() {
@@ -20,7 +20,7 @@ export default function AdminPermission() {
       <hr className="mb-5" />
       {!isLoading ? (
         <ul className="space-y-5 min-w-40">
-          {data?.data.map((el: User) => {
+          {data?.data.map((el: UserConfig) => {
             const {
               id,
               name,

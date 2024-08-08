@@ -1,9 +1,9 @@
 import ChatService from "@/features/chat/api/ChatService";
 import { SideMenu } from "@/widget/side-menu/side-menu";
 import {
+  dehydrate,
   HydrationBoundary,
   QueryClient,
-  dehydrate,
 } from "@tanstack/react-query";
 import { Suspense } from "react";
 import Loading from "../loading";
@@ -15,6 +15,7 @@ export default async function RootLayout({
 }>) {
   // 데이터 낙관적으로 불러오기
   const queryClient = new QueryClient();
+
   await queryClient.prefetchQuery({
     queryKey: ["room"],
     queryFn: () => ChatService.getChatRoomList(),
@@ -24,6 +25,7 @@ export default async function RootLayout({
     queryKey: ["chatUser"],
     queryFn: () => ChatService.getChatUserList(),
   });
+
   return (
     <Suspense fallback={<Loading />}>
       <HydrationBoundary state={dehydrate(queryClient)}>
