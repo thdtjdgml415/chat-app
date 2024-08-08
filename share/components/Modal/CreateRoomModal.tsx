@@ -71,7 +71,7 @@ export const CreateRoomModalContent = () => {
       <div className="w-full">
         <p>참여가능한 인원</p>
         <hr />
-        {isLoading === true ? (
+        {isLoading ? (
           "로딩중"
         ) : (
           <ul className="w-full h-[300px] overflow-auto">
