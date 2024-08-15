@@ -11,7 +11,7 @@ const nextConfig = {
       {
         // http://43.203.222.95:8080/api/member/colleague'
         source: "/api/member/colleague", // 요청한 경로
-        destination: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/member/colleague`, // 내가 사용할 경로
+        destination: `https://43.203.222.95:8080/api/member/colleague`, // 내가 사용할 경로
       },
     ];
   },
