@@ -2217,6 +2217,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/react-query-next-experimental@npm:^5.51.23":
+  version: 5.51.23
+  resolution: "@tanstack/react-query-next-experimental@npm:5.51.23"
+  peerDependencies:
+    "@tanstack/react-query": ^5.51.23
+    next: ^13 || ^14 || ^15
+    react: ^18 || ^19
+  checksum: 10/e6e613d00cd116f319751fea297d9506ec5f118a1772a7a7253a33bef53fd7d2a09e1725582f4b4bba56c8deeae6e2aadf2c116aaf851237b19a63923854bcb4
+  languageName: node
+  linkType: hard
+
 "@tanstack/react-query@npm:^5.51.11":
   version: 5.51.11
   resolution: "@tanstack/react-query@npm:5.51.11"
@@ -3228,6 +3239,7 @@ __metadata:
     "@stomp/stompjs": "npm:^7.0.0"
     "@tanstack/react-query": "npm:^5.51.11"
     "@tanstack/react-query-devtools": "npm:^5.51.11"
+    "@tanstack/react-query-next-experimental": "npm:^5.51.23"
     "@testing-library/dom": "npm:^10.4.0"
     "@testing-library/jest-dom": "npm:^6.4.8"
     "@testing-library/react": "npm:^16.0.0"

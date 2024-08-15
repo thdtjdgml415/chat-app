@@ -35,7 +35,7 @@ export const useWebSocketStore = create<useWebsocketStoreProps>((set, get) => ({
   currentSubscription: null,
 
   connect: () => {
-    const acess = localStorage.getItem("access");
+    const acess = localStorage.getItem("accessToken");
     const client = new Client({
       brokerURL: `ws://43.203.222.95:8080/ws/chat`,
       connectHeaders: {
@@ -66,6 +66,7 @@ export const useWebSocketStore = create<useWebsocketStoreProps>((set, get) => ({
   disconnect: () => {
     get().currentSubscription?.unsubscribe();
     get().client?.deactivate();
+
     set({ client: null, currentSubscription: null, currentRoomId: null });
   },
 

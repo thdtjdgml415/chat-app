@@ -1,16 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import ChatService from "../api/ChatService";
+
 import { ChatRoomProps } from "../model/chat";
+import { fetchChatRooms } from "../api/ChatService";
+import useCustomQuery from "@/share/hooks/useCustomQuery";
 
 export const useQueryGetChatRoomList = () => {
-  const { data, error, isPending, isLoading } = useQuery<
-    ChatRoomProps,
-    AxiosError
-  >({
-    queryKey: ["room"],
-    queryFn: () => ChatService.getChatRoomList(),
-  });
-
-  return { data, error, isPending, isLoading };
+  return useCustomQuery(
+    ["room"],
+    () => fetchChatRooms(),
+    (res) => res.data
+  );
 };

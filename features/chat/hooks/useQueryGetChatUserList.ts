@@ -1,10 +1,10 @@
 import useCustomQuery from "../../../share/hooks/useCustomQuery";
-import ChatService from "../api/ChatService";
+import { fetchChatUserList } from "../api/ChatService";
 
 export const useQueryGetChatUserList = () => {
   return useCustomQuery(
     ["chatUser"],
-    () => ChatService.getChatUserList(),
+    () => fetchChatUserList(),
     (res) => res.data
   );
 };

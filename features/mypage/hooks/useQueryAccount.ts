@@ -1,12 +1,17 @@
 import useCustomQuery from "../../../share/hooks/useCustomQuery";
-import ConfigService from "../api/ConfigService";
+import {
+  getAccountConfigData,
+  getAccountImage,
+  getPermissionListData,
+} from "../api/ConfigService";
+
 import { ApiResponse, ResUser, UserConfig } from "../model/myConfig";
 
 // 계정 정보 불러오는 query
 export const useQueryGetAccountData = () => {
   return useCustomQuery(
     ["configAccount"],
-    () => ConfigService.getAccountConfigData(),
+    () => getAccountConfigData(),
     (res: ResUser): UserConfig => res.data
   );
 };
@@ -15,7 +20,7 @@ export const useQueryGetAccountData = () => {
 export const useQueryGetProfile = () => {
   return useCustomQuery(
     ["profileImage"],
-    () => ConfigService.getAccountImage(),
+    () => getAccountImage(),
     (res: Blob): Blob => res
   );
 };
@@ -24,7 +29,7 @@ export const useQueryGetProfile = () => {
 export const useQueryPermissionMember = () => {
   return useCustomQuery(
     ["permissionList"],
-    () => ConfigService.getPermissionListData(),
+    () => getPermissionListData(),
     (res: ApiResponse): ApiResponse => res
   );
 };

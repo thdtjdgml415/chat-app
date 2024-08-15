@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import ConfigService from "../api/ConfigService";
+
 import { ActionPorps } from "../admin-permission/admin-permission-item";
+import { postPermissionMember } from "../api/ConfigService";
 
 export const useMutationPermissionMember = () => {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: (data: ActionPorps) => ConfigService.postPermissionMember(data),
+    mutationFn: (data: ActionPorps) => postPermissionMember(data),
     onSuccess: (data) => {
       console.log("suceess permission data -", data);
       queryClient.invalidateQueries({ queryKey: ["permissionList"] });

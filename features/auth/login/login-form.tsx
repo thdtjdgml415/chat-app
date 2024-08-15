@@ -1,95 +1,63 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { signin } from "@/share/lib/action";
+import { useFormState, useFormStatus } from "react-dom";
 
-import { useLogin } from "@/features/auth/hooks/useLogin";
-import { User } from "@/features/auth/model/auth";
+import Flex from "@/share/components/Layout/Flex";
+import { Input } from "@/share";
 import { Button } from "@/share/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/share/ui/form";
-import { Input } from "@/share/ui/input";
-import { formSchema } from "./formSchema";
-
-import useAlert from "@/hooks/useAlert";
-import PopupAlert from "@/share/components/Alert/PopupAlert";
-import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 export default function LoginForm() {
-  const mutation = useLogin();
-  const isOpen = useAlert((state) => state.isOpen);
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      loginId: "",
-      password: "",
-    },
-  });
-
   // 2. Define a submit handler.
-  const onSubmit = form.handleSubmit(async (data: User) => {
-    console.log("login client data :", data);
-    mutation.mutate({ loginId: data.loginId, password: data.password });
-  });
+  const [state, action] = useFormState(signin, undefined);
+  const route = useRouter();
+  console.log("현재 validaion 상태", state);
+
+  if (state?.resultCode === "SUCCESS") {
+    localStorage.setItem("accessToken", state.data.tokenInfo.accessToken);
+    localStorage.setItem("refreshToken", state.data.tokenInfo.refreshToken);
+    route.push("/chat/chatroom");
+  }
 
   return (
-    <Form {...form}>
-      {isOpen && <PopupAlert />}
-      <form onSubmit={onSubmit} className="space-y-4">
-        <FormField
-          control={form.control}
-          name="loginId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>ID</FormLabel>
-              <FormControl>
-                <Input placeholder="Please enter id....!" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Please enter password....!"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <ul className="flex justify-center">
-          <li className="go-signup">
-            <Link href={"/sign-up"}>아이디 찾기</Link>
-          </li>
-          <li className="go-signup">
-            <Link href={"/sign-up"}>비밀번호 찾기</Link>
-          </li>
-          <li className="go-signup">
-            <Link href={"/sign-up"}>회원가입</Link>
-          </li>
-        </ul>
+    <form action={action}>
+      <Flex direction="flex-col" justify="justify-center" className="space-y-5">
+        <Input type="text" name="loginId" />
+        {state?.errors?.loginId && (
+          <p className="text-sm text-red-500">{state.errors.loginId}</p>
+        )}
 
-        <Button type="submit" className="w-full" disabled={mutation.isPending}>
-          {mutation.isPending ? "로그인 중..." : "로그인"}
-        </Button>
-      </form>
-    </Form>
+        <Input type="password" name="password" />
+        {state?.errors?.password && (
+          <p className="text-sm text-red-500">{state.errors.password}</p>
+        )}
+      </Flex>
+      {state?.message && (
+        <p className="text-sm text-red-500">{state.message}</p>
+      )}
+
+      <LoginButton />
+    </form>
+  );
+}
+
+function LoginButton() {
+  const { pending } = useFormStatus();
+
+  const handleClick = (event: any) => {
+    if (pending) {
+      event.preventDefault();
+    }
+  };
+
+  return (
+    <Button
+      className="w-full mt-6"
+      aria-disabled={pending}
+      type="submit"
+      onClick={handleClick}
+    >
+      {pending ? "loading..." : "로그인"}
+    </Button>
   );
 }

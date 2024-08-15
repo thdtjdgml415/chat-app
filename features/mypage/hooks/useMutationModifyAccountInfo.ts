@@ -3,15 +3,16 @@ import {
   useMutation,
   useQueryClient,
 } from "@tanstack/react-query";
-import ConfigService from "../api/ConfigService";
+
 import useToggle from "@/hooks/useToggleStore";
+import { putModifyInfo } from "../api/ConfigService";
 
 export const useMutationModifyAccountInfo = <T>() => {
   const queryClient = useQueryClient();
   const { toggleFn } = useToggle();
 
   const mutation = useMutation({
-    mutationFn: (data: T) => ConfigService.putModfyInfo(data),
+    mutationFn: (data: T) => putModifyInfo(data),
     onSuccess: (data) => {
       console.log("suceess permission data -", data);
       queryClient.invalidateQueries({

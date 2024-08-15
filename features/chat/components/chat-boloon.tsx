@@ -5,8 +5,9 @@ import { useEffect } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 import { v4 as uuidv4 } from "uuid";
-import ChatService from "../api/ChatService";
+
 import { MessageDataProps } from "../model/chat";
+import { fetchChatHistory } from "../api/ChatService";
 
 const ChatMessage = ({
   roomId,
@@ -19,13 +20,14 @@ const ChatMessage = ({
 }) => {
   const { data: chatHistory, isLoading: chatHistoryLoading } = useQuery({
     queryKey: ["chatHistory", roomId],
-    queryFn: () => ChatService.getChatHistroy(roomId),
-    select: (data: any) => data.data,
+    queryFn: () => fetchChatHistory(roomId),
+    select: (data: any) => data,
     enabled: !!roomId,
     staleTime: 1000,
   });
 
   useEffect(() => {
+    console.log("chatHistory Data", chatHistory);
     if (chatHistory) {
       setMessages(chatHistory);
     }

@@ -26,7 +26,7 @@ export default function ChattingBox() {
   }, [roomId, subscribeToRoom, unsubscribeFromRoom]);
 
   return (
-    <div className="w-full h-screen bg-ST_primary box-border">
+    <div className="box-border w-full h-screen bg-ST_primary">
       <div className="w-full h-[90%] flex flex-col justify-end">
         <div className="flex flex-col overflow-y-auto">
           <ChatMessage
@@ -38,7 +38,7 @@ export default function ChattingBox() {
         </div>
         {/* <PreviewImage /> */}
       </div>
-      <div className="w-full  px-10 bg-secondary">
+      <div className="w-full px-10 bg-secondary">
         <div className="pt-5">
           <ChatInput roomId={roomId} sendChatMessage={sendMessage} />
         </div>

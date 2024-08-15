@@ -17,12 +17,12 @@ export const ChatRoomList = () => {
     );
 
   if (error) return <div>Error: {error.message}</div>;
-  if (!roomData || roomData.data.length === 0)
+  if (!roomData || roomData.length === 0)
     return <div className="my-10">채팅방 목록이 없습니다.</div>;
 
   return (
     <ul className="w-full overflow-y-auto h-72">
-      {roomData.data.map((room: Room) => {
+      {roomData.map((room: Room) => {
         const {
           roomId,
           title,

@@ -46,6 +46,7 @@ const RAW_RUNTIME_STATE =
           ["@stomp/stompjs", "npm:7.0.0"],\
           ["@tanstack/react-query", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.11"],\
           ["@tanstack/react-query-devtools", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.11"],\
+          ["@tanstack/react-query-next-experimental", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.23"],\
           ["@testing-library/dom", "npm:10.4.0"],\
           ["@testing-library/jest-dom", "npm:6.4.8"],\
           ["@testing-library/react", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:16.0.0"],\
@@ -3277,6 +3278,36 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@tanstack/react-query-next-experimental", [\
+      ["npm:5.51.23", {\
+        "packageLocation": "./.yarn/cache/@tanstack-react-query-next-experimental-npm-5.51.23-c67cb22684-e6e613d00c.zip/node_modules/@tanstack/react-query-next-experimental/",\
+        "packageDependencies": [\
+          ["@tanstack/react-query-next-experimental", "npm:5.51.23"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.23", {\
+        "packageLocation": "./.yarn/__virtual__/@tanstack-react-query-next-experimental-virtual-aaea409b13/0/cache/@tanstack-react-query-next-experimental-npm-5.51.23-c67cb22684-e6e613d00c.zip/node_modules/@tanstack/react-query-next-experimental/",\
+        "packageDependencies": [\
+          ["@tanstack/react-query-next-experimental", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.23"],\
+          ["@tanstack/react-query", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.11"],\
+          ["@types/next", null],\
+          ["@types/react", "npm:18.3.3"],\
+          ["@types/tanstack__react-query", null],\
+          ["next", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:14.2.5"],\
+          ["react", "npm:18.3.1"]\
+        ],\
+        "packagePeers": [\
+          "@tanstack/react-query",\
+          "@types/next",\
+          "@types/react",\
+          "@types/tanstack__react-query",\
+          "next",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@testing-library/dom", [\
       ["npm:10.4.0", {\
         "packageLocation": "./.yarn/cache/@testing-library-dom-npm-10.4.0-a0d2ca848e-05825ee9a1.zip/node_modules/@testing-library/dom/",\
@@ -4493,6 +4524,7 @@ const RAW_RUNTIME_STATE =
           ["@stomp/stompjs", "npm:7.0.0"],\
           ["@tanstack/react-query", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.11"],\
           ["@tanstack/react-query-devtools", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.11"],\
+          ["@tanstack/react-query-next-experimental", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:5.51.23"],\
           ["@testing-library/dom", "npm:10.4.0"],\
           ["@testing-library/jest-dom", "npm:6.4.8"],\
           ["@testing-library/react", "virtual:b9bc897b32b7de77e4a6434ac3f51c270df5d045d21979cbdf914715872f4a8088a607b79cfd7960476c295e967ae3979f3bd485cb16a9be41fecc502198a4cc#npm:16.0.0"],\

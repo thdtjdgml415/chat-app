@@ -1,137 +1,113 @@
-import axios, { AxiosInstance } from "axios";
+"use  client";
 
-class Service {
-  protected http: AxiosInstance;
-  protected multi: AxiosInstance;
-  protected image: AxiosInstance;
-  protected logOut: AxiosInstance;
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 
-  constructor() {
-    const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-    this.http = this.createInstance(baseURL!, "application/json");
-    this.multi = this.createInstance(baseURL!, "multipart/form-data");
-    this.image = this.createInstance(baseURL!, "multipart/form-data", "blob");
-    this.logOut = this.createInstance(baseURL!, "");
-  }
-
-  private createInstance(
-    baseURL: string,
-    contentType: string,
-    responseType: "json" | "blob" = "json"
-  ): AxiosInstance {
-    const instance = axios.create({
-      baseURL,
-      timeout: 5000,
-      headers: {
-        "Content-Type": contentType,
-        "Access-Control-Allow-Credenials": true,
-      },
-      responseType,
-    });
-
-    instance.interceptors.request.use(
-      (config) => {
-        const authToken = localStorage.getItem("access");
-        if (authToken) {
-          const newConfig = { ...config };
-          newConfig.headers.Authorization = `Bearer ${authToken}`;
-          return newConfig;
-        }
-        return config;
-      },
-      (error) => {
-        console.error("endpoint 요청 에러발생 -------", error);
-        return Promise.reject(error);
+// 인터셉터를 설정하는 함수
+const setInterceptors = (instance: AxiosInstance, baseURL: string) => {
+  instance.interceptors.request.use(
+    (config) => {
+      //  localStorage.getItem("accessToken");
+      const authToken =
+        typeof window !== "undefined"
+          ? localStorage.getItem("accessToken")
+          : null;
+      if (authToken) {
+        config.headers.Authorization = `Bearer ${authToken}`;
       }
-    );
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
 
-    instance.interceptors.response.use(
-      async (response) => {
-        if (response.status === 404) {
-          console.log("404 페이지로 넘어가야 함!");
-        }
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+      if (error.response && error.response.status === 401) {
+        const refreshToken =
+          typeof window !== "undefined"
+            ? localStorage.getItem("refreshToken")
+            : null;
+        if (refreshToken) {
+          try {
+            const res = await axios.get(`${baseURL}/api/member/reissue-token`, {
+              headers: { Refresh: refreshToken },
+            });
 
-        return response;
-      },
-
-      async (error) => {
-        if (error.response && error.response.status === 401) {
-          console.log("401 error find");
-          const data = error.response.data;
-          if (data.error === "Unauthorized") {
-            const refresh = localStorage.getItem("refresh");
-            console.log("refresh 존재하는지? ===========", refresh);
-            if (refresh) {
-              try {
-                const response = await axios.get(
-                  `${baseURL}api/member/reissue-token`, // Ensure URL is correctly formatted
-                  { headers: { Refresh: refresh } }
-                );
-                console.log("${baseURL} ", response);
-                if (response.status === 200) {
-                  // 새 토큰을 localStorage에 저장
-                  console.log("토큰 지우고");
-                  localStorage.setItem(
-                    "access",
-                    response.data.data.accessToken
-                  );
-                  localStorage.setItem(
-                    "refresh",
-                    response.data.data.refreshToken
-                  );
-                  console.log("토큰 재 셋팅");
-                }
-              } catch (refreshError) {
-                console.error("Refresh token request failed:", refreshError);
-              }
+            if (res.status === 200) {
+              localStorage.setItem("accessToken", res.data.data.accessToken);
+              localStorage.setItem("refreshToken", res.data.data.refreshToken);
+              error.config.headers.Authorization = `Bearer ${res.data.data.accessToken}`;
+              return axios(error.config);
             }
+          } catch (refreshError) {
+            console.error("Token refresh failed", refreshError);
+            window.location.href = "/sign-in";
           }
+        } else {
+          window.location.href = "/sign-in";
         }
-        return Promise.reject(error);
       }
-    );
+      return Promise.reject(error);
+    }
+  );
+};
 
-    return instance;
-  }
+// Axios 인스턴스를 생성하는 함수
+const createInstance = (
+  baseURL: string,
+  contentType: string,
+  responseType: "json" | "blob" = "json"
+): AxiosInstance => {
+  const instance = axios.create({
+    baseURL,
+    timeout: 5000,
+    headers: {
+      "Content-Type": contentType,
+      "Access-Control-Allow-Credentials": true,
+    },
+    responseType,
+  });
 
-  protected async get<T>(url: string, params?: any): Promise<T> {
-    const response = await this.http.get<T>(url, { params });
-    return response.data;
-  }
+  setInterceptors(instance, baseURL);
 
-  protected async getLogOut<T>(url: string, params?: any): Promise<T> {
-    const response = await this.logOut.get<T>(url, {
-      params,
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access")}`,
-        Refresh: localStorage.getItem("refresh"),
-      },
-    });
-    return response.data;
-  }
+  return instance;
+};
 
-  protected async getImage(url: string, params?: any) {
-    const response = await this.image.get<Blob>(url, { params });
-    return window.URL.createObjectURL(response.data);
-  }
+const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL!;
+const http = createInstance(baseURL, "application/json");
+const multi = createInstance(baseURL, "multipart/form-data");
+const image = createInstance(baseURL, "multipart/form-data", "blob");
+const logOut = createInstance(baseURL, "");
 
-  protected async post<T>(url: string, data?: any): Promise<T> {
-    const response = await this.http.post<T>(url, data);
-    return response.data;
-  }
+export const get = async <T>(url: string, params?: any): Promise<T> => {
+  const response: AxiosResponse = await http.get<T>(url, { params });
+  return response.data;
+};
 
-  protected async put<T>(url: string, data?: T): Promise<T> {
-    const response = await this.multi.put<T>(url, data);
-    return response.data;
-  }
+export const getImage = async (url: string, params?: any) => {
+  const response = await image.get<Blob>(url, { params });
+  return window.URL.createObjectURL(response.data);
+};
 
-  setAuthToken(token: string) {
-    localStorage.setItem("access", token);
-  }
-  setAuthRefreshToken(token: string) {
-    localStorage.setItem("refresh", token);
-  }
+export const post = async <T>(url: string, data?: any): Promise<T> => {
+  const response = await http.post<T>(url, data);
+  return response.data;
+};
+
+export const put = async <T>(url: string, data?: any): Promise<T> => {
+  const response = await multi.put<T>(url, data);
+  return response.data;
+};
+
+export async function getLogOut<T>(url: string, params?: any): Promise<T> {
+  const response = await logOut.get<T>(url, {
+    params,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+      Refresh: localStorage.getItem("refreshToken"),
+    },
+  });
+  return response.data;
 }
-
-export default Service;

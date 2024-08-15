@@ -1,12 +1,15 @@
 "use client";
 
 import {
+  HydrationBoundary,
   MutationCache,
   QueryCache,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
+
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryStreamedHydration } from "@tanstack/react-query-next-experimental";
 
 function makeQueryClient() {
   const queryClient = new QueryClient({
@@ -53,8 +56,10 @@ export default function ReactQueryProviders({
   const queryClient = getQueryClient();
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
-      <ReactQueryDevtools initialIsOpen={false} />
+      <ReactQueryStreamedHydration>
+        {children}
+        <ReactQueryDevtools initialIsOpen={false} />
+      </ReactQueryStreamedHydration>
     </QueryClientProvider>
   );
 }

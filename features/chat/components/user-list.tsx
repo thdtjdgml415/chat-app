@@ -23,7 +23,7 @@ const UserList = () => {
 
   return (
     <>
-      {list.map((user: ChatUser) => {
+      {list?.map((user: ChatUser) => {
         const {
           id,
           loginId,

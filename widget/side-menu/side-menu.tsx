@@ -3,13 +3,15 @@
 import { ChatIcon, CommunityIcon } from "@/public/Images/side-menuSvg";
 import { SideHeader } from "./side-header";
 
-import AuthService from "@/features/auth/api/AuthService";
 import useToggle from "@/hooks/useToggle";
 import { useWebSocketStore } from "@/share/store/useWebsocketStore";
 import { Button } from "@/share/ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import ConfigDialog from "../mypage/config-dialog";
 import { SideItem } from "./side-item";
+
+import { getOut } from "@/features/auth/api/AuthService";
+import { getLogOut } from "@/share/api/Service";
 
 const menuItems = [
   { id: 1, label: "친구", link: "/chat/friends", icon: <CommunityIcon /> },
@@ -24,12 +26,12 @@ export const SideMenu = () => {
 
   const handleLogOut = async () => {
     try {
-      const response: any = await AuthService.getOut();
+      const response: any = await getLogOut("api/member/logout");
       console.log("LogOut ----------", response);
 
       if (response.message === "Log Out Successfully") {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
         localStorage.removeItem("role");
         disconnect();
         // 로그아웃 성공 후 처리, 예를 들어 홈페이지로 리다이렉트
